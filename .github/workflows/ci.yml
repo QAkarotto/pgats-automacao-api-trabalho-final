@@ -7,6 +7,11 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -128,18 +133,26 @@ jobs:
         compression-level: 6
         retention-days: 14
 
-    - name: Deploy to GitHub Pages
+    - name: Upload pages artifact
       if: github.ref == 'refs/heads/master' && matrix.node-version == '18.x'
-      uses: peaceiris/actions-gh-pages@v3
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public
-        destination_dir: .
-        enable_jekyll: false
-        force_orphan: true
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        commit_message: 'docs: update test reports and coverage'
+        path: public
+
+  deploy-pages:
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   security:
     runs-on: ubuntu-latest
