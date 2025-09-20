@@ -2,13 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    env:
+      NODE_ENV: test
 
     strategy:
       matrix:
@@ -94,9 +98,9 @@ jobs:
             <div class="card">
               <h2>🔗 Quick Links</h2>
               <ul>
-                <li><a href="https://github.com/your-username/car-rental-api">GitHub Repository</a></li>
-                <li><a href="https://github.com/your-username/car-rental-api/actions">CI/CD Pipeline</a></li>
-                <li><a href="https://codecov.io/gh/your-username/car-rental-api">Codecov Dashboard</a></li>
+                <li><a href="https://github.com/QAkarotto/pgats-automacao-api-trabalho-final">GitHub Repository</a></li>
+                <li><a href="https://github.com/QAkarotto/pgats-automacao-api-trabalho-final/actions">CI/CD Pipeline</a></li>
+                <li><a href="https://codecov.io/gh/QAkarotto/pgats-automacao-api-trabalho-final">Codecov Dashboard</a></li>
               </ul>
             </div>
           </div>
