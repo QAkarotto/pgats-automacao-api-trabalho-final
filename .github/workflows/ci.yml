@@ -117,7 +117,7 @@ jobs:
         fail_ci_if_error: false
 
     - name: Archive test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results-${{ matrix.node-version }}
@@ -125,6 +125,8 @@ jobs:
           coverage/
           mochawesome-report/
           public/
+        compression-level: 6
+        retention-days: 14
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main' && matrix.node-version == '18.x'
