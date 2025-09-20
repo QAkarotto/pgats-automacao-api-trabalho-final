@@ -129,12 +129,17 @@ jobs:
         retention-days: 14
 
     - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/main' && matrix.node-version == '18.x'
+      if: github.ref == 'refs/heads/master' && matrix.node-version == '18.x'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
-        destination_dir: reports
+        destination_dir: .
+        enable_jekyll: false
+        force_orphan: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'docs: update test reports and coverage'
 
   security:
     runs-on: ubuntu-latest
